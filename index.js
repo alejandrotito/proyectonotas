@@ -22,8 +22,8 @@ formNote.onsubmit = (e) => {
     // que agrega un usuario, con los datos ingresados.
 
     e.preventDefault();
-    // Traer la lista de usuarios de localStorage.
-    // Sino existe la clave 'users', devuelve un arreglo vacío.
+    // Traer la lista de notas de localStorage.
+    // Sino existe la clave 'notes', devuelve un arreglo vacío.
     const notes = JSON.parse(localStorage.getItem('notes')) || [];
     // Guardar en variables los valores ingresados por el usuario.
     const title = titleInput.value;
@@ -36,7 +36,7 @@ formNote.onsubmit = (e) => {
         id: generateId(),
         createdAt: Date.now()
     })
-    // Guardar lista de usuarios en localStorage.
+    // Guardar lista de notas en localStorage.
     const notesJson = JSON.stringify(notes);
     localStorage.setItem('notes', notesJson);
 
@@ -48,7 +48,7 @@ formNote.onsubmit = (e) => {
 }
 
 const getModal = (note) => {
-    // Esta función devuelve el código del modal con todos los datos del usuario.
+    // Esta función devuelve el código del modal con todos los datos de la nota.
 
     const createdAt = new Date(note.createdAt);
     return `
@@ -85,32 +85,32 @@ const getModal = (note) => {
 }
 
 const loadForm = (noteId) => {
-    // Esta función carga los datos del usuario seleccionado,
+    // Esta función carga los datos de la nota seleccionada,
     // en los campos del formulario del documento HTML.
 
-    // Traer la lista de usuarios de localStorage,
-    // sino existe la clave 'users', devuelve un arreglo vacío.
+    // Traer la lista de notas de localStorage,
+    // sino existe la clave 'notes', devuelve un arreglo vacío.
     const notes = JSON.parse(localStorage.getItem('notes')) || [];
-    // Buscar el usuario en el array usando el método find(),
-    // comparando el id que recibe por parámetro la función hasta encontrar el usuario que coincide.
+    // Buscar la nota en el array usando el método find(),
+    // comparando el id que recibe por parámetro la función hasta encontrar la nota que coincide.
     const note = notes.find((n) => n.id === noteId);
     contentModalInput.value = note.content;
     titleModalInput.value = note.title;
 
-    // Actualizar el valor de la variable global editUserId,
-    // para guardar el id del usuario a editar.
+    // Actualizar el valor de la variable global editNoteId,
+    // para guardar el id de la nota a editar.
     editNoteId = noteId;
 }
 
 function displayNotes(notes) {
-    // La función ahora recibe por parámetros el array de usuarios que debe insertar en el documento HTML.
+    // La función ahora recibe por parámetros el array de notas que debe insertar en el documento HTML.
 
     const rows = [];
     for (let i = 0; i < notes.length; i++) {
-        // Guardamos los datos de usuario en user.
+        // Guardamos los datos de notas en note.
         const note = notes[i];
         // Creamos en un string una fila para la tabla,
-        // con los datos del usuario separados en cada celda.
+        // con los datos de la nota separados en cada celda.
         const tr = `
         <tr>
             <td>${note.title}</td>
@@ -136,48 +136,48 @@ function displayNotes(notes) {
 }
 
 function displayAllNotes() {
-    // Esta función muestra la lista completa de usuarios en la tabla.
+    // Esta función muestra la lista completa de las notas en la tabla.
 
-    // Traer la lista de usuarios de localStorage,
-    // sino existe la clave 'users', devuelve un arreglo vacío.
+    // Traer la lista de notas de localStorage,
+    // sino existe la clave 'notes', devuelve un arreglo vacío.
     const notes = JSON.parse(localStorage.getItem('notes')) || [];
-    // Llamar a la función displayUsers, pasando por parámetros la lista completa de usuarios.
+    // Llamar a la función displayNotes, pasando por parámetros la lista completa de notas.
     displayNotes(notes);
-    console.log("Se cargó la lista completa de notas en la tabla. 👩‍👩‍👧‍👧");
+    console.log("Se cargó la lista completa de notas en la tabla.");
 }
 
 function deleteNote(noteId) {
-    // Traer la lista de usuarios de localStorage.
+    // Traer la lista de notas de localStorage.
     const notes = JSON.parse(localStorage.getItem('notes')) || [];
-    // Eliminar un usuario, usando filter() para filtrar el usuario
+    // Eliminar una nota, usando filter() para filtrar la nota
     // que coincide con el id recibido por parámetros.
     const filteredNotes = notes.filter((note) => note.id !== noteId);
     // Guardar lista de usuarios en localStorage.
     const notesJson = JSON.stringify(filteredNotes);
     localStorage.setItem('notes', notesJson);
-    // Actualizar la tabla en el html llamando a la función displayAllUsers().
+    // Actualizar la tabla en el html llamando a la función displayAllNotes().
     displayAllNotes();
 }
 
 formEdit.onsubmit = (e) => {
     // Al evento submit del formulario de edición le asignamos esta función,
-    // que actualiza al usuario seleccionado, con los datos ingresados.
+    // que actualiza la nota seleccionada, con los datos ingresados.
 
     e.preventDefault()
-    // Traer la lista de usuarios de localStorage,
+    // Traer la lista de notas de localStorage,
     const notes = JSON.parse(localStorage.getItem('notes')) || [];
     // Guardar en variables los valores ingresados por el usuario.
     const content = contentModalInput.value;
     const title = titleModalInput.value;
 
     // Incluimos una variable nueva que guarda la fecha de modificación,
-    // para agregarla al objeto del usuario modificado.
+    // para agregarla al objeto de la nota modificada.
     const updatedAt = Date.now();
 
-    // Actualizar un usuario del array, usando map().
+    // Actualizar una nota del array, usando map().
     const updatedNotes = notes.map((n) => {
-        // Usamos el id de usuario guardado en editUserId,
-        // para modificar solo al usuario que coincida con este.
+        // Usamos el id de la nota guardada en editNoteId,
+        // para modificar solo la nota que coincida con este.
         if (n.id === editNoteId) {
             // Usar spread syntax para copiar las propiedades de un objeto a otro.
             const note = {
@@ -188,12 +188,12 @@ formEdit.onsubmit = (e) => {
             }
             return note;
         } else {
-            // Retornar el usuario sin modificar en los casos que no coincida el id.
+            // Retornar la nota sin modificar en los casos que no coincida el id.
             return e;
         }
     });
 
-    // Guardar lista de usuarios en localStorage.
+    // Guardar lista de notas en localStorage.
     const notesJson = JSON.stringify(updatedNotes);
     localStorage.setItem('notes', notesJson);
     formEdit.reset();
@@ -205,22 +205,22 @@ formEdit.onsubmit = (e) => {
 
 searchForm.onsubmit = (e) => {
     // Al evento submit de la barra de búsqueda le asignamos esta función,
-    // que filtra y muestra los usuarios que coinciden con la búsqueda.
+    // que filtra y muestra las notas que coinciden con la búsqueda.
 
     e.preventDefault();
-    // Guardar en una variable la lista completa de usuarios.
+    // Guardar en una variable la lista completa de notas.
     const notes = JSON.parse(localStorage.getItem('notes')) || [];
     // Transformar en minúsculas la palabra buscada y guardarla en una variable.
     const term = search.value.toLowerCase();
     console.log("term", term);
-    // Guardar el array resultante de aplicar el método filter sobre el array de usuarios,
+    // Guardar el array resultante de aplicar el método filter sobre el array de notas,
     // filtrando para obtener solo los que incluyen la palabra buscada.
     const filteredNotes = notes.filter((n) => (
-        // Usar el método toLowerCase() para transformar el nombre y apellido a minúscula,
+        // Usar el método toLowerCase() para transformar el titulo y contenido a minúscula,
         // y el método includes() que evalúa si se incluye o no la palabra buscada.
         n.title.toLowerCase().includes(term) || n.content.toLowerCase().includes(term)
     ))
-    // Llamar a la función displayUsers, pasando por parámetros la lista filtrada de usuarios.
+    // Llamar a la función displayNotes, pasando por parámetros la lista filtrada de notas.
     displayNotes(filteredNotes);
     console.log(`Se cargó la lista filtrada de notas en la tabla. ${filteredNotes.length} resultados encontrados. 🧐`);
 }

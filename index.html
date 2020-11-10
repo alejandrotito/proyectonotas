@@ -39,7 +39,7 @@
     </div>
 
     <div class="container mb-5">
-        <!-- Barra de búsqueda por nombre y apellido -->
+        <!-- Barra de búsqueda por titulo y contenido -->
         <div class="card p-4">
             <form id="searchForm">
                 <input type="search" id="search" placeholder="Ingrese su búsqueda" style="width: 300px;">
@@ -51,7 +51,8 @@
         </div>
 
         <div class="container">
-            <!-- Formulario de registro de usuarios -->
+
+            <!-- Formulario para nueva nota -->
             <form class="m-5" id="formNote">
                 <div class="form-group text-center text-light" >
                     <label for="title"> Titulo </label>
@@ -80,7 +81,7 @@
         </table>
     </div>
 
-    <!-- Modal de edición de usuario -->
+    <!-- Modal para editar notas -->
     <div class="modal fade" id="editModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
@@ -96,10 +97,10 @@
                         <div class="form-group">
 
                             <label for="title"> Titulo </label>
-                            <input type="text" id="titleModal" class="form-control" required>
+                            <input type="text" id="titleModal" class="form-control" maxlength="10" required>
 
                             <label for="content"> Contenido </label>
-                            <input type="text" id="contentModal" class="form-control" required>
+                            <input type="text" id="contentModal" class="form-control" maxlength="500" required>
                         </div>
                         
 
